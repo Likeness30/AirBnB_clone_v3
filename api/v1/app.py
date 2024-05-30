@@ -21,6 +21,7 @@ def page_not_found(exceptions):
 
 '''
 
+
 @app.teardown_appcontext
 def teardown_db(exception):
     """closes the storage on teardown"""
