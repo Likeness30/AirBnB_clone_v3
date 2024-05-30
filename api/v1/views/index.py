@@ -3,7 +3,7 @@
 Starts a Flask web application
 """
 from flask import jsonify
-from models import storage
+'''from models import storage'''
 from api.v1.views import app_views
 
 
@@ -12,7 +12,7 @@ def status():
     """display the status response"""
     return jsonify(status="OK")
 
-
+'''
 @app_views.route('/stats', strict_slashes=False)
 # This code has the advantage of not returning non-existing objects
 def stats():
@@ -21,3 +21,4 @@ def stats():
                    "Review": "reviews", "State": "states", "User": "users"}
     return jsonify({v: storage.count(k) for k, v in all_classes.items()
                     if storage.count(k)})
+'''
