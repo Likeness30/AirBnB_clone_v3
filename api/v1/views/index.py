@@ -1,46 +1,23 @@
 #!/usr/bin/python3
 """
-index
+Starts a Flask web application
 """
-
 from flask import jsonify
+from models import storage
 from api.v1.views import app_views
 
-from models import storage
 
-
-@app_views.route("/status", methods=['GET'], strict_slashes=False)
+@app_views.route('/status', strict_slashes=False)
 def status():
-    """
-    status route
-    :return: response with json
-    """
-    data = {
-        "status": "OK"
-    }
-
-    resp = jsonify(data)
-    resp.status_code = 200
-
-    return resp
+    """display the status response"""
+    return jsonify(status="OK")
 
 
-@app_views.route("/stats", methods=['GET'], strict_slashes=False)
+@app_views.route('/stats', strict_slashes=False)
+# This code has the advantage of not returning non-existing objects
 def stats():
-    """
-    stats of all objs route
-    :return: json of all objs
-    """
-    data = {
-        "amenities": storage.count("Amenity"),
-        "cities": storage.count("City"),
-        "places": storage.count("Place"),
-        "reviews": storage.count("Review"),
-        "states": storage.count("State"),
-        "users": storage.count("User"),
-    }
-
-    resp = jsonify(data)
-    resp.status_code = 200
-
-    return resp
+    """display the number of each objects by type"""
+    all_classes = {"Amenity": "amenities", "City": "cities", "Place": "places",
+                   "Review": "reviews", "State": "states", "User": "users"}
+    return jsonify({v: storage.count(k) for k, v in all_classes.items()
+                    if storage.count(k)})
